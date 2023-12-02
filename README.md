@@ -5,5 +5,5 @@ Repo for public PlasHost scripts.
 ### `go` script.
 Run the following command:
 ```sh
-bash (curl "https://raw.githubusercontent.com/PlasHost/public-scripts/main/go" i)
+curl -s "https://raw.githubusercontent.com/PlasHost/public-scripts/main/go" | bash -s -- i
 ```
