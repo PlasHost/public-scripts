@@ -37,6 +37,7 @@ case "$1" in
         echo -e "Parsing as script..."
 
         echo -e "\nalias go='~/bin/go'" >> ~/.bashrc
+        source ~/.bashrc
         echo -e "Installing to .bashrc..."
         ;;
 
