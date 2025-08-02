@@ -30,15 +30,19 @@ case "$1" in
         echo -e "Making directory..."
 
         cd ~/bin || exit
-        curl -o "go" "https://raw.githubusercontent.com/PlasHost/public-scripts/master/go"
+        curl -o "go.sh" "https://raw.githubusercontent.com/PlasHost/public-scripts/master/go"
         echo -e "Cloning go command..."
 
         chmod +x "go"
         echo -e "Parsing as script..."
 
-        echo -e "\nalias go='~/bin/go'" >> ~/.bashrc
-        source ~/.bashrc
+        echo -e "\nalias go.sh='~/bin/go.sh'" >> ~/.bashrc
         echo -e "Installing to .bashrc..."
+        source ~/.bashrc
+        echo -e "Installed! If commands do not work, run the following command:"
+        echo -e ""
+        echo -e "     source ~/.bashrc"
+        echo -e ""
         ;;
 
     "uz")
@@ -46,6 +50,13 @@ case "$1" in
         echo "Unzipping '$2'..."
         tar -xvf "$2"
         echo "Done unzipping..."
+        ;;
+
+    "n-link")
+        [ -z "$2" ] && echo_usage_and_exit "You need to specify a string!" "Usage: go n-link <nginx-file-name>"
+        echo "Linking '$2'..."
+        ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled/$1
+        echo "Done linking..."
         ;;
 
     "zi")
