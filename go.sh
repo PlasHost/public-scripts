@@ -30,7 +30,7 @@ case "$1" in
         echo -e "Making directory..."
 
         cd ~/bin || exit
-        curl -o "go.sh" "https://raw.githubusercontent.com/PlasHost/public-scripts/master/go"
+        curl -o "go.sh" "https://raw.githubusercontent.com/PlasHost/public-scripts/master/go.sh"
         chmod +x "go.sh"
         echo -e "Cloning go command..."
 
@@ -56,7 +56,7 @@ case "$1" in
     "n-link")
         [ -z "$2" ] && echo_usage_and_exit "You need to specify a string!" "Usage: go n-link <nginx-file-name>"
         echo "Linking '$2'..."
-        ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled/$1
+        ln -s /etc/nginx/sites-available/$2 /etc/nginx/sites-enabled/$2
         echo "Done linking..."
         ;;
 
