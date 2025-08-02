@@ -31,6 +31,7 @@ case "$1" in
 
         cd ~/bin || exit
         curl -o "go.sh" "https://raw.githubusercontent.com/PlasHost/public-scripts/master/go"
+        chmod +x "go.sh"
         echo -e "Cloning go command..."
 
         chmod +x "go"
