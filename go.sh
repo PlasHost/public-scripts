@@ -107,7 +107,7 @@ case "$1" in
     "up")
         echo -e "Updating..."
         sudo apt update
-        sudo apt upgrade
+        sudo apt upgrade -y
         echo -e "Updated."
         ;;
 
