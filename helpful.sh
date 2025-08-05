@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #################################################
-# Created by: NitrateOrigins                    #
-# GitHub: https://www.github.com/NitrateOrigins #
-# Created for: The Templex Server               #
-# GitHub: https://www.github.com/TemplexMC      #
+# Created by: Drak                              #
+# GitHub: https://www.github.com/DrakDv         #
+# Created for: PlasHost                         #
+# GitHub: https://www.github.com/PlasHost       #
 # Thanks for using my script!                   #
 #################################################
 
@@ -25,24 +25,40 @@ echo_usage_and_exit() {
 
 case "$1" in
     "i")
-        echo -e "Installing..."
-        mkdir -p ~/bin
+        echo -e "Installing helpful command..."
         echo -e "Making directory..."
+        mkdir -p ~/bin
 
         cd ~/bin || exit
-        curl -o "go.sh" "https://raw.githubusercontent.com/PlasHost/public-scripts/master/go.sh"
-        chmod +x "go.sh"
-        echo -e "Cloning go command..."
+        echo -e "Cloning helpful command..."
+        curl -o "helpful" "https://raw.githubusercontent.com/PlasHost/public-scripts/master/helpful.sh"
+        chmod +x "helpful"
 
-        chmod +x "go"
         echo -e "Parsing as script..."
 
-        echo -e "\nalias go.sh='~/bin/go.sh'" >> ~/.bashrc
         echo -e "Installing to .bashrc..."
+        echo -e "\nalias helpful='~/bin/helpful'" >> ~/.bashrc
         source ~/.bashrc
         echo -e "Installed! If commands do not work, run the following command:"
         echo -e ""
         echo -e "     source ~/.bashrc"
+        echo -e ""
+        ;;
+
+    "u")
+        echo -e "Updating helpful command..."
+        echo -e "Making directory..."
+        mkdir -p ~/bin
+
+        cd ~/bin || exit
+        echo -e "Cloning helpful command..."
+        curl -o "helpful" "https://raw.githubusercontent.com/PlasHost/public-scripts/master/helpful.sh"
+        chmod +x "helpful"
+
+        clear
+        echo -e ""
+        echo -e "Updated! Note: This did not install it into your .bashrc!"
+        echo -e "If you have issues with running the command, try installing it instead!"
         echo -e ""
         ;;
 
@@ -127,7 +143,7 @@ case "$1" in
 
     "e")
         echo -e "Editing..."
-        nano "${2:-$HOME/bin/go}"
+        nano "${2:-$HOME/bin/helpful}"
         clear
         echo -e "Done."
         ;;
