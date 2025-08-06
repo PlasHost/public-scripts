@@ -2,7 +2,7 @@
 Repo for public PlasHost scripts.
 
 ## Getting the Scripts
-### `go` script.
+### `helpful` script.
 **Installation**
 Run the following command:
 ```bash
