@@ -3,12 +3,12 @@ Repo for public PlasHost scripts.
 
 ## Getting the Scripts
 ### `helpful` script.
-**Installation**
+**Installation**<br></br>
 Run the following command:
 ```bash
 curl -s "https://raw.githubusercontent.com/PlasHost/public-scripts/main/helpful.sh" | bash -s -- i
 ```
-**Updating**
+**Updating**<br></br>
 Run the following command:
 ```bash
 curl -s "https://raw.githubusercontent.com/PlasHost/public-scripts/main/helpful.sh" | bash -s -- u
