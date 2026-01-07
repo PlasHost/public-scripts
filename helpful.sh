@@ -171,6 +171,7 @@ case "$1" in
         screen -list
         echo -e "Retrieved!"
         echo -e "Done."
+        echo -e "Done."
         ;;
 
     "m")
