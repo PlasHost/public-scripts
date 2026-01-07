@@ -107,10 +107,13 @@ case "$1" in
         ;;
 
     "tk" | "kt")
-        [ -z "$2" ] && echo_usage_and_exit "You need to specify a port!" "Usage: go $1 <port>"
+        [ -z "$2" ] && echo_usage_and_exit "You need to specify a port!" "Usage: helpful $1 <port>"
         echo -e "Killing port $2..."
-        sudo kill -9 "$(sudo lsof -t -i :$2)"
-        echo -e "Killed port $2."
+        if sudo lsof -t -i :"$2" | xargs -r sudo kill -9; then
+            echo -e "Killed port $2."
+        else
+            echo -e "Failed to kill port $2 (no processes found or permission issue)."
+        fi
         ;;
 
     "b")
