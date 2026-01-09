@@ -13,3 +13,8 @@ Run the following command:
 ```bash
 curl -s "https://raw.githubusercontent.com/PlasHost/public-scripts/main/helpful.sh" | bash -s -- u
 ```
+### `db_copy.sh` script.
+Run the following command:
+```bash
+curl -o "https://raw.githubusercontent.com/PlasHost/public-scripts/refs/heads/main/db_copy.sh" "db_copy.sh"
+```
