@@ -12,8 +12,7 @@ echo -e "Starting up..."
 
 # Check for empty input
 if [ -z "$1" ]; then
-    1=?
-    exit
+    set -- "?"
 fi
 
 # Function to echo usage and exit
@@ -22,6 +21,52 @@ echo_usage_and_exit() {
     echo -e "$2"
     exit
 }
+
+# Detect distro family (debian = Ubuntu/Debian, rhel = Rocky/Alma/CentOS/Fedora/RHEL)
+detect_distro() {
+    DISTRO_ID="unknown"
+    DISTRO_FAMILY="unknown"
+    if [ -r /etc/os-release ]; then
+        . /etc/os-release
+        DISTRO_ID="$ID"
+        case " $ID $ID_LIKE " in
+            *" debian "* | *" ubuntu "*) DISTRO_FAMILY="debian" ;;
+            *" rhel "* | *" fedora "* | *" centos "*) DISTRO_FAMILY="rhel" ;;
+        esac
+    fi
+
+    if [ "$DISTRO_FAMILY" = "unknown" ]; then
+        if command -v apt >/dev/null 2>&1; then
+            DISTRO_FAMILY="debian"
+        elif command -v dnf >/dev/null 2>&1 || command -v yum >/dev/null 2>&1; then
+            DISTRO_FAMILY="rhel"
+        fi
+    fi
+
+    if command -v dnf >/dev/null 2>&1; then
+        RHEL_PKG="dnf"
+    else
+        RHEL_PKG="yum"
+    fi
+}
+
+# Update + upgrade system packages using the right package manager
+system_upgrade() {
+    case "$DISTRO_FAMILY" in
+        "debian")
+            sudo apt update && sudo apt upgrade -y
+            ;;
+        "rhel")
+            sudo "$RHEL_PKG" makecache && sudo "$RHEL_PKG" upgrade -y
+            ;;
+        *)
+            echo -e "Unsupported distro '$DISTRO_ID' (no apt, dnf or yum found)."
+            exit 1
+            ;;
+    esac
+}
+
+detect_distro
 
 case "$1" in
     "i")
@@ -72,7 +117,12 @@ case "$1" in
     "n-link")
         [ -z "$2" ] && echo_usage_and_exit "You need to specify a string!" "Usage: go n-link <nginx-file-name>"
         echo "Linking '$2'..."
-        ln -s /etc/nginx/sites-available/$2 /etc/nginx/sites-enabled/$2
+        if [ "$DISTRO_FAMILY" = "rhel" ] && [ ! -d /etc/nginx/sites-enabled ]; then
+            # Rocky/RHEL nginx has no sites-enabled; it loads /etc/nginx/conf.d/*.conf
+            ln -s "/etc/nginx/sites-available/$2" "/etc/nginx/conf.d/${2%.conf}.conf"
+        else
+            ln -s "/etc/nginx/sites-available/$2" "/etc/nginx/sites-enabled/$2"
+        fi
         echo "Done linking..."
         ;;
 
@@ -124,15 +174,14 @@ case "$1" in
         ;;
 
     "up")
-        echo -e "Updating..."
-        sudo apt update
-        sudo apt upgrade -y
+        echo -e "Updating ($DISTRO_ID)..."
+        system_upgrade
         echo -e "Updated."
         ;;
 
     "--")
-        echo -e "Upgrading..."
-        sudo apt update && sudo apt upgrade -y
+        echo -e "Upgrading ($DISTRO_ID)..."
+        system_upgrade
         echo -e "Upgraded."
         ;;
 
